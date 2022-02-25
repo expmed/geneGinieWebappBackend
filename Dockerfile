@@ -11,4 +11,12 @@ COPY ./gene-webapp-backend ./gene-webapp-backend
 
 WORKDIR /backend/gene-webapp-backend
 
-CMD ["flask", "run"]
+ENV FLASK_APP=server.py
+
+ENV FLASK_ENV=development
+
+ENV export FLASK_DEGUB=1
+
+EXPOSE 5000
+
+CMD ["flask", "run" , "--host=0.0.0.0"]

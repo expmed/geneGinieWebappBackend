@@ -8,6 +8,12 @@ import pandas as pd
 
 app=create_app()
 
+app.host = '0.0.0.0'
+
+@app.route('/')
+def hellow_world():
+    return 'flask docker'
+
 sock = Sock(app)
 
 #Read databases
