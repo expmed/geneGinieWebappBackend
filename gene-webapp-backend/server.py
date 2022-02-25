@@ -11,6 +11,7 @@ app=create_app()
 sock = Sock(app)
 
 #Read databases
+print("Reading Databases")
 gene2pubmed = pd.read_csv('data/gene2pubmed_primary_genes.csv', low_memory=False)
 gene2pubmed.drop(columns=['Unnamed: 0'],inplace=True)
 #orthologs
@@ -19,6 +20,7 @@ gene_orthologs = pd.read_csv('data/gene_orthologs', delimiter = "\t")
 #pubmed data paper data (only gene2pubmed ids)
 gene2pubmed_papers = pd.read_csv('data/pubmed_paper_data_gene2pubmed_simplified.csv', low_memory=False)
 gene2pubmed_papers.drop(columns=['Unnamed: 0'],inplace=True)
+print("Finished Reading Databases")
 
 # @app.route("/", methods=['get'])
 # def home():
