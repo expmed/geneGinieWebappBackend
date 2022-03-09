@@ -6,16 +6,6 @@ import json
 import numpy as np
 import pandas as pd
 
-app=create_app()
-
-app.host = '0.0.0.0'
-
-@app.route('/')
-def hellow_world():
-    return 'flask docker'
-
-sock = Sock(app)
-
 #Read databases
 print("Reading Databases")
 gene2pubmed = pd.read_csv('data/gene2pubmed_primary_genes.csv', low_memory=False)
@@ -27,6 +17,16 @@ gene_orthologs = pd.read_csv('data/gene_orthologs', delimiter = "\t")
 gene2pubmed_papers = pd.read_csv('data/pubmed_paper_data_gene2pubmed_simplified.csv', low_memory=False)
 gene2pubmed_papers.drop(columns=['Unnamed: 0'],inplace=True)
 print("Finished Reading Databases")
+
+app=create_app()
+
+# app.host = '0.0.0.0'
+
+@app.route('/')
+def hellow_world():
+    return 'flask docker'
+
+sock = Sock(app)
 
 # @app.route("/", methods=['get'])
 # def home():
