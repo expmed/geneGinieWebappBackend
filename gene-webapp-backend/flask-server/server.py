@@ -1,4 +1,4 @@
-from app import create_app
+from app import app, read_databases
 from flask_sock import Sock
 import pdb
 import json
@@ -6,27 +6,33 @@ import json
 import numpy as np
 import pandas as pd
 
-#Read databases
-print("Reading Databases")
-gene2pubmed = pd.read_csv('data/gene2pubmed_primary_genes.csv', low_memory=False)
-gene2pubmed.drop(columns=['Unnamed: 0'],inplace=True)
-#orthologs
-gene_orthologs = pd.read_csv('data/gene_orthologs', delimiter = "\t")
+# app=create_app()
 
-#pubmed data paper data (only gene2pubmed ids)
-gene2pubmed_papers = pd.read_csv('data/pubmed_paper_data_gene2pubmed_simplified.csv', low_memory=False)
-gene2pubmed_papers.drop(columns=['Unnamed: 0'],inplace=True)
-print("Finished Reading Databases")
+#Routes Definitions (This route is only used for testing purposes now)
+# @app.route('/')
+# def hellow_world():
+#     return 'flask docker'
 
-app=create_app()
-
-# app.host = '0.0.0.0'
-
-@app.route('/')
-def hellow_world():
-    return 'flask docker'
-
+gene2pubmed,gene_orthologs,gene2pubmed_papers = read_databases()
 sock = Sock(app)
+
+#Read databases and initialize on first request
+# @app.before_first_request
+# def before_first_request():
+#     #Read databases
+#     print("Reading Databases")
+#     gene2pubmed = pd.read_csv('data/gene2pubmed_primary_genes.csv', low_memory=False)
+#     print("Reading Databases")
+#     gene2pubmed.drop(columns=['Unnamed: 0'],inplace=True)
+#     print("Reading gene2pubmed")
+#     #orthologs
+#     gene_orthologs = pd.read_csv('data/gene_orthologs', delimiter = "\t")
+#     print("Read orthologs")
+#     #pubmed data paper data (only gene2pubmed ids)
+#     gene2pubmed_papers = pd.read_csv('data/pubmed_paper_data_gene2pubmed_simplified.csv', low_memory=False)
+#     gene2pubmed_papers.drop(columns=['Unnamed: 0'],inplace=True)
+#     print("Read gene2pubmed_papers")
+#     print("Finished Reading Databases")
 
 # @app.route("/", methods=['get'])
 # def home():

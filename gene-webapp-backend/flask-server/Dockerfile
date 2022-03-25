@@ -10,9 +10,18 @@ ADD . .
 # Install the dependencies
 RUN pip install -r requirements.txt
 
-# CMD ["gunicorn server:app -w 2 --threads 2 -b 0.0.0.0:8000"]
+#Expose port
+EXPOSE 8000
+
+#ENVIRONMENTAL VARIABLES
+ENV FLASK_APP=server.py
+ENV FLASK_ENV=production
+ENV FLASK_DEBUG=1
+
+CMD ["gunicorn", "server:app", "-w" , "2" , "--threads", "2",  "-b", "0.0.0.0:8000", "--timeout", "600"]
+
 
 # ENTRYPOINT ["/bin/bash"]
 
-#We can delete this one when used with docker compose
-EXPOSE 8080
+# # run the command to start uWSGI
+# CMD ["uwsgi", "--ini", "app.ini"]

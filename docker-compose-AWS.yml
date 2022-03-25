@@ -3,10 +3,9 @@ version: '3.7'
 services:
 
   flask:
-    build: ./flask-server
-    image: flask-local
+    image: agonzamart/gene-webapp-backend_flask:V0
     container_name: flask
-    # platform: linux/amd64
+    platform: linux/amd64
     restart: always
     env_file:
       ./env/flask-server.env
@@ -15,10 +14,9 @@ services:
     command: gunicorn server:app -w 2 --threads 2 -b 0.0.0.0:8000 --timeout 600
 
   nginx:
-    build: ./nginx
-    image: nginx-local
+    image: agonzamart/gene-webapp-backend_nginx:V0
     container_name: nginx
-    # platform: linux/amd64
+    platform: linux/amd64
     restart: always
     ports:
       - '80:80'
