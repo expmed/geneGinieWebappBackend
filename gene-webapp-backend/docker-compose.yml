@@ -12,7 +12,7 @@ services:
       ./env/flask-server.env
     ports:
       - "8000:8000"
-    command: gunicorn server:app -w 2 --threads 2 -b 0.0.0.0:8000 --timeout 600
+    command: gunicorn server:app -w 2 --threads 2 -b 0.0.0.0:8000 --timeout 0
 
   nginx:
     build: ./nginx
