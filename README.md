@@ -1,8 +1,10 @@
 #Code Structure 
 
+```
 1. DockerCompose
   1.1 Docker Container: flask-server
   1.2 Docker Container: nginx
+```
 
 ```
 - gene-webapp-backend
