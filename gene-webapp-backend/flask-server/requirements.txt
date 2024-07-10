@@ -8,6 +8,7 @@ itsdangerous==2.0.1
 Jinja2==3.0.3
 MarkupSafe==2.0.1
 numpy==1.22.2
+setuptools
 pandas==1.4.0
 python-dateutil==2.8.2
 python-engineio==4.3.1
