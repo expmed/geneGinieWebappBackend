@@ -36,7 +36,8 @@
 5. navigate to ./flask-server
 6. Create a folder named data
 7. Copy the database: ginie.db to that folder
-8. `export FLASK_APP=server.py'
-9. `flask run -p 8000` We need to use this port because is the one used in the Angular client to create the websocket. If changed it needs to be changed in both sides.  
+8. Copy the dataframe citations_db.feather to that flder
+9. `export FLASK_APP=server.py'
+10. `flask run -p 8000` We need to use this port because is the one used in the Angular client to create the websocket. If changed it needs to be changed in both sides.  
 
 # Docker Launching for Deploymenmt (TODO)
