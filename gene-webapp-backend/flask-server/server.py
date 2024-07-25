@@ -347,7 +347,7 @@ def generate_summary_component_data(db):
         db = database to generate summary from
     """
     #Get Unique Publication IDs to filter gene2pubmed_papers_db
-    pdb.set_trace()
+    #pdb.set_trace()
     publication_IDs = db['PubMed_ID'].drop_duplicates().values.tolist()
     paper_db = gene2pubmed_papers_db[gene2pubmed_papers_db['PubMed_ID'].isin(publication_IDs)]
     #Filter Research and Review Papers
