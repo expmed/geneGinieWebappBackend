@@ -1,10 +1,10 @@
-# Code Structure 
+# GeneGinie Project
 
-```
-1. DockerCompose
-  1.1 Docker Container: flask-server
-  1.2 Docker Container: nginx
-```
+[Project Overview and architecture information](https://drive.google.com/file/d/1c06cLv5WeQ8PKxyaw6yn-VvE3IAMJPEt/view?usp=sharing) 
+
+# Basic Setup
+
+## Code Structure
 
 ```
 - gene-webapp-backend
@@ -27,8 +27,7 @@
 - docker-compose.yml
  ```
 
-# Basic Setup
-
+## Setup Steps
 1. Clone this repo
 2. Create a virtual environment (for example)
    2.a python3 -m venv gene-backend
@@ -43,3 +42,9 @@
 10. `flask run -p 8000` We need to use this port because is the one used in the Angular client to create the websocket. If changed it needs to be changed in both sides.  
 
 # Docker Launching for Deploymenmt (TODO)
+
+```
+1. DockerCompose Structure
+  1.1 Docker Container: flask-server
+  1.2 Docker Container: nginx
+```
