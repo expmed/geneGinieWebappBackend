@@ -1,6 +1,6 @@
 # GeneGinie Project
 
-[Project Overview and architecture information](https://drive.google.com/file/d/1c06cLv5WeQ8PKxyaw6yn-VvE3IAMJPEt/view?usp=sharing) 
+[Project Overview and architecture information](https://drive.google.com/file/d/1LLVk6F5CWMrpBzZxysWPCxlLPgrhoW2i/view?usp=sharing) 
 
 # Basic Setup
 
