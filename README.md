@@ -16,13 +16,15 @@
     - .dockerignore
     - Dockerfile
     - Dockerfile_dev
+    - data
+      - citations_db.feather
+      - ginie.db
     - requirements.txt
     - server.py
   - nginx
     - Dockerfile
     - nginx.conf
 - docker-compose.yml
-- requirements.txt
  ```
 
 # Basic Setup
