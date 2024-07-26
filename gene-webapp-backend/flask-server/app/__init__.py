@@ -84,11 +84,6 @@ def read_databases():
 
         return [gene2pubmed_db,gene2pubmed_papers_db,gene_info_db,authors_db,citations_db,symbol_group]
 
-#This function is used to add or remove mesh terms for the purposes of the project
-#See https://meshb-prev.nlm.nih.gov/treeView go to publication characteristics [V] 
-#and then publication formats [v1] for information on mesh terms
-# def mesh_terms_mapping:
-
 
 
 #Routes Definitions (This route is only used for testing purposes now)

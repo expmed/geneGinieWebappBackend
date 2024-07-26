@@ -38,7 +38,6 @@ def echo(ws):
         if component_type =='search-results-component':
             search_results = []
             print('search results component data')
-            # pdb.set_trace()
             ##Filter gene db
             #create search term with up and lower case
             # searchTerm = [data_filter.lower(),data_filter.upper()]
@@ -50,7 +49,6 @@ def echo(ws):
             # search_results = pd.concat([symbol_results,synosyms_results]).drop_duplicates()
             #Search for term in API
             search_results_from_API = search(data_filter)
-            # pdb.set_trace()
             #Get list of IDs
             ID_results = search_results_from_API['IdList']
             #Transform to ints
@@ -62,7 +60,6 @@ def echo(ws):
             search_results['GeneID'] = pd.Categorical(search_results['GeneID'],ID_results)
             #2. Tell to sort by GENEID it applies the order specified in ID_results
             search_results = search_results.sort_values('GeneID')
-            # pdb.set_trace()
             #Clean db columns
             search_results.drop(columns=[
                 'Nomenclature_status',
@@ -93,7 +90,6 @@ def echo(ws):
                     pubmedIDs = gene2pubmed_db[gene2pubmed_db[key]==int(data_filter)]['PubMed_ID'].values.tolist()
                 db = gene2pubmed_db[gene2pubmed_db['PubMed_ID'].isin(pubmedIDs)]
             else:
-                # pdb.set_trace()
                 db = gene2pubmed_db
                 #If we have a geneID we filter db by gene.
                 if(data_filter):
@@ -107,7 +103,6 @@ def echo(ws):
             print('Summary Component Data')
             histogram_all, histogram_all_cum, n_papers, histogram_research, histogram_research_cum, n_research_papers, histogram_reviews, histogram_reviews_cum, n_review_papers = generate_summary_component_data(db)
 
-            # pdb.set_trace()
 
             ## Send Summary data ##
             #Send Total Number of papers in all gene2pubmed (number)
@@ -138,7 +133,6 @@ def echo(ws):
             #Select db based on page data type and filters
             db = 0
             paper_db = gene2pubmed_papers_db
-            # pdb.set_trace()
             if page == 'gene' or page =='home':
                 if data_type == 'gene':
                     key = 'Symbol_group'
@@ -181,10 +175,8 @@ def echo(ws):
                     #Remove self author from list           
             #Process and send based on page
             if data_type == 'gene':
-                # pdb.set_trace()
                 ## GENE PUBLICATION COUNTS ##
                 #Calculate gene counts for all time
-                # pdb.set_trace()
                 gene_counts_all_time = db[[key]]
                 gene_counts_all_time = bar_chart_counts(gene_counts_all_time, 50, key)
                 #Send gene counts for all time
@@ -210,11 +202,9 @@ def echo(ws):
                 ## END GENE PUBLICATION COUNTS ##
             elif data_type == 'author':
                 authorkey = ['LastName','ForeName','Initials'] 
-                # pdb.set_trace()
                 max_n_elements = 200
                 #Calculate author counts for all time
                 author_counts_all_time = bar_chart_counts(db,max_n_elements,authorkey)
-                # pdb.set_trace()
                 #Send author counts for all time
                 send_data(ws,'subsection_component','author_counts_all_time',author_counts_all_time.to_json(orient="records"))
                 #Calculate author counts for last 10 YEARS
@@ -249,7 +239,6 @@ def echo(ws):
         ### END Subsection Component data ###
         #PAPER DATA SECTION
         elif component_type == "list_component":
-            # pdb.set_trace()
             page = data_options[0]
             if page == 'gene':
                 #Store geneID
@@ -287,7 +276,6 @@ def echo(ws):
             #Last Year
             start_year = time_threshold(1)
             past_1 = paper_db[paper_db['Pubdate']>=start_year]
-            # pdb.set_trace()
             send_data(ws,'subsection_component','all_time',paper_db.to_json(orient="records"))
             send_data(ws,'subsection_component','past_10',past_10.to_json(orient="records"))
             send_data(ws,'subsection_component','past_5',past_5.to_json(orient="records"))
@@ -303,7 +291,6 @@ def echo(ws):
             print('fetching data')
             gene_info_data = fetch_details([geneID])
             print('creating_object')
-            # pdb.set_trace()
             gene_info = create_gene_info_object(gene_info_data[0],geneID) #We should only get one element passing only one ID
             print('gene_info_created')
             #Send gene info data
@@ -347,7 +334,6 @@ def generate_summary_component_data(db):
         db = database to generate summary from
     """
     #Get Unique Publication IDs to filter gene2pubmed_papers_db
-    #pdb.set_trace()
     publication_IDs = db['PubMed_ID'].drop_duplicates().values.tolist()
     paper_db = gene2pubmed_papers_db[gene2pubmed_papers_db['PubMed_ID'].isin(publication_IDs)]
     #Filter Research and Review Papers
@@ -365,7 +351,6 @@ def generate_summary_component_data(db):
     n_review_papers = len(review_db)
     #Calculate  value counts for histogram reviews papers
     histogram_reviews, histogram_reviews_cum = calculate_histogram(review_db['Pubdate'])
-    # pdb.set_trace()
 
     #Rate Section
     histogram_all = calculate_acceleration_rate(histogram_all)
@@ -386,9 +371,7 @@ def calculate_acceleration_rate(hist):
     #count to track index
     count = 0
     for i, each_row in hist.iterrows():
-        # pdb.set_trace()
         if count != 0 and count != length:
-            # pdb.set_trace()
             acc_rate = acceleration_rate(
                     each_row['counts'],
                     hist.iloc[count-1]['counts'],
@@ -435,7 +418,6 @@ def ncbi_geneID_to_accession(geneID):
         gene_record = ''
     # Extract the accession number from the gene record
     accession = None
-    # pdb.set_trace()
     #Get the ascension number
     match = re.search(r"UniProtKB/Swiss-Prot:(\S+)", gene_record)
     if match:
@@ -597,7 +579,6 @@ def create_gene_info_object(gene_data,GeneID):
     gene_info['Avg_Publications_Year'] = str(int(gene2pubmed_db[gene2pubmed_db['Primary_gene']==GeneID]['Pubdate'].value_counts().mean()))
     #Peak_Citation_Year, N_Citations_Peak_Year, Total_Citations
     gene_info['Peak_Citation_Year'], gene_info['N_Citations_Peak_Year'], gene_info['Total_Citations'] ,gene_info['Avg_Citations_Year'], gene_info['First_Citation'], gene_info['Last_Citation'] = gene_citation_counts(GeneID)
-    # pdb.set_trace()
     gene_symbol = get_symbol_from_geneID(GeneID)
     gene_info['Symbols_In_Group'] = get_symbols_in_group(gene_symbol)
     return gene_info
@@ -626,7 +607,6 @@ def get_symbols_in_group(symbol_name):
     #Check if we have other genes in this group
     if len(genes_in_group)>0:
         for each_gene_in_group in symbol_group[symbol_group['Symbol']==symbol_name]['idList'].values.tolist()[0]:
-            # pdb.set_trace()
             symbols_in_group.append(get_symbol_from_geneID(int(each_gene_in_group)))
     #If not is empty
     else:
@@ -647,7 +627,6 @@ def gene_citation_counts(geneID):
     paper_db = gene2pubmed_papers_db[gene2pubmed_papers_db['PubMed_ID'].isin(pubmed_ids)]
     #This gets all the citations by year (We can use this to add a barchart of the citations every year in the gene card
     #Or somewhere else in the gene page
-    # pdb.set_trace()
     gene_citations_by_year = paper_db.groupby('Pubdate')['Citations'].sum().reset_index().sort_values('Citations',ascending=False)
     total_citations = gene_citations_by_year['Citations'].sum()
     avg_citations = int(gene_citations_by_year['Citations'].mean())
@@ -673,7 +652,6 @@ def gene_publication_counts(GeneID):
     return str(max_year), str(n_pub)
 
 def getCitationCount(publicationIDArray):
-    # pdb.set_trace()
     publicationIdsStrings = [str(x) for x in publicationIDArray]
     publications_data = fetch_details(publicationIdsStrings)
     citationCounts = [str(publication['PubmedData']['ArticleIdList'][0]) for publication in publications_data['PubmedArticle']]
@@ -696,7 +674,6 @@ def calculate_histogram(data):
     hist_all_years = pd.DataFrame()
     if len(hist!=0):
         #range returns sequence -1 so I add a +1 to max
-        # pdb.set_trace()
         hist_all_years.index = pd.Series(range(hist.index.min(), hist.index.max()+1))
         hist = hist_all_years.join(hist).fillna(0)
         hist['counts'] = hist['counts'].astype(int)
@@ -731,7 +708,6 @@ def bar_chart_counts(data, num_results,index_col):
             - index_col: Column used as reference for the counts
         Output: data_frame with column counts
     """
-    # pdb.set_trace()
     counts_dataFrame = data[index_col].value_counts().to_frame(name='counts')
     #Symbols
     if index_col == 'Symbol_group':
@@ -751,7 +727,6 @@ def bar_chart_counts(data, num_results,index_col):
         counts_dataFrame = counts_dataFrame.reset_index()
         #Rename columns
         counts_dataFrame.rename(columns={"level_0": 'Ranking', "index":index_col},inplace=True)
-    # pdb.set_trace()
     column_order = ['Ranking',index_col,'counts']
     #We add 1 to start at 1 instead of at 0.
     counts_dataFrame['Ranking'] = counts_dataFrame['Ranking'] + 1
